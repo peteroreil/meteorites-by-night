@@ -1,2 +1,3 @@
 # meteorites-by-night
-HTML5 Canvas 
+
+A HTML5 Canvas app from the excellent tutorial by (christopher4lis)[https://github.com/christopher4lis]   
