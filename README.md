@@ -20,5 +20,5 @@ $ npm run start
 
 ## Launch Browser
 ```
-http://localhost:3000/
+Application should launch automatically
 ```

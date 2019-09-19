@@ -1,5 +1,3 @@
-/*eslint-disable */
-
 import utils from './utils';
 
 const canvas = document.querySelector('canvas');
@@ -9,68 +7,64 @@ canvas.width = innerWidth;
 canvas.height = innerHeight;
 
 
-const colors = ['#2185C5', '#7ECEFD', '#FFF6E5', '#FF7F66']
-
 addEventListener('resize', () => {
-    canvas.width = innerWidth
-    canvas.height = innerHeight
-
-    init()
-})
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+    init();
+});
 
 function Star(x, y, radius, color) {
-    this.x = x
-    this.y = y
-    this.radius = radius
-    this.color = color
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.color = color;
     this.shatterCount = 0;
     this.velocity = {
         x: utils.randomIntFromRange(-25, 25),
         y: 3
-    }
+    };
 }
 
 Star.prototype.friction = 0.5;
 Star.prototype.gravity = 1;
 
-Star.prototype.draw = function() {
+Star.prototype.draw = function () {
     c.save();
-    c.beginPath()
-    c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-    c.fillStyle = this.color
-    c.shadowColor ='#E3EAEF';
+    c.beginPath();
+    c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    c.fillStyle = this.color;
+    c.shadowColor = '#E3EAEF';
     c.shadowBlur = 20;
-    c.fill()
+    c.fill();
     c.closePath();
     c.restore();
-}
+};
 
-Star.prototype.update = function() {
+Star.prototype.update = function () {
     this.draw();
 
-    if(this.y + this.radius + this.velocity.y >= canvas.height - groundHeight) {
+    if (this.y + this.radius + this.velocity.y >= canvas.height - groundHeight) {
         this.velocity.y = -this.velocity.y * this.friction;
         this.shatter();
     } else {
         this.velocity.y += this.gravity;
     }
 
-    if(this.x + this.radius + this.velocity.x > canvas.width || 
-        this.x - this.radius <= 0 ) {
+    if (this.x + this.radius + this.velocity.x > canvas.width ||
+        this.x - this.radius <= 0) {
         this.velocity.x = -this.velocity.x * this.friction;
         this.shatter();
     }
     this.y += this.velocity.y;
     this.x += this.velocity.x;
-}
+};
 
-Star.prototype.shatter = function() {
+Star.prototype.shatter = function () {
     this.radius -= 3;
-    for(let i=0; i<8; i++) {
-        miniStars.push(new MiniStar(this.x, this.y, 3, 'red'))
+    for (let i = 0; i < 8; i += 1) {
+        miniStars.push(new MiniStar(this.x, this.y, 3, 'red'));
     }
-}
-
+};
 
 
 MiniStar.prototype.gravity = 0.1;
@@ -81,31 +75,31 @@ function MiniStar(x, y, radius, color) {
     this.ttl = 100;
     this.opacity = 1;
 
-    let initalYVelocity = utils.randomIntFromRange(-15, 15);
-    let initialXVelocity = utils.randomIntFromRange(-8, 8);
+    const initalYVelocity = utils.randomIntFromRange(-15, 15);
+    const initialXVelocity = utils.randomIntFromRange(-8, 8);
 
     this.velocity = {
         y: initalYVelocity,
         x: initialXVelocity
-    }
+    };
 }
 
 MiniStar.prototype.draw = function() {
     c.save();
-    c.beginPath()
-    c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-    c.fillStyle = `rgba(227, 234, 239, ${this.opacity})`
-    c.shadowColor ='#E3EAEF';
+    c.beginPath();
+    c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    c.fillStyle = `rgba(227, 234, 239, ${this.opacity})`;
+    c.shadowColor = '#E3EAEF';
     c.shadowBlur = 20;
-    c.fill()
-    c.closePath()
+    c.fill();
+    c.closePath();
     c.restore();
-}
+};
 
-MiniStar.prototype.update = function() {
+MiniStar.prototype.update = function () {
     this.draw();
 
-    if(this.y + this.radius + this.velocity.y > canvas.height - groundHeight) {
+    if (this.y + this.radius + this.velocity.y > canvas.height - groundHeight) {
         this.velocity.y = -this.velocity.y * this.friction;
     } else {
         this.velocity.y += this.gravity;
@@ -115,12 +109,12 @@ MiniStar.prototype.update = function() {
     this.x += this.velocity.x;
     this.ttl -= 1;
     this.opacity -= (1 / this.ttl);
-}
+};
 
 
 function createMountainRange(mountainAmount, height, color) {
     const mountainWidth = canvas.width / mountainAmount;
-    for(let i=0; i < mountainAmount; i++) {
+    for (let i = 0; i < mountainAmount; i += 1) {
         c.beginPath();
         c.moveTo(i * mountainWidth, canvas.height);
         c.lineTo(i * mountainWidth + mountainWidth + 350, canvas.height);
@@ -140,7 +134,7 @@ function createGround() {
 
 // Implementation
 
-const backgroundGradient = c.createLinearGradient(0, 0, 0,canvas.height);
+const backgroundGradient = c.createLinearGradient(0, 0, 0, canvas.height);
 backgroundGradient.addColorStop(0, '#171e26');
 backgroundGradient.addColorStop(1, '#3f586b');
 
@@ -152,15 +146,15 @@ let randomSpawnRate = 75;
 let groundHeight = canvas.height * 0.10;
 
 function init() {
-    stars = []
+    stars = [];
     miniStars = [];
     backgroundStars = [];
 
-    for (let i = 0; i < 150; i++) {
-        let x = Math.random() * canvas.width;
-        let y = Math.random() * canvas.height;
-        let radius = Math.random() * 3;
-        backgroundStars.push(new Star(x, y, radius, 'white'))
+    for (let i = 0; i < 150; i += 1) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const radius = Math.random() * 3;
+        backgroundStars.push(new Star(x, y, radius, 'white'));
     }
 }
 
@@ -168,19 +162,19 @@ function init() {
 function animate() {
     requestAnimationFrame(animate);
     c.fillStyle = backgroundGradient;
-    c.fillRect(0, 0, canvas.width, canvas.height)
+    c.fillRect(0, 0, canvas.width, canvas.height);
 
     backgroundStars.forEach((bgStar, index) => {
         bgStar.draw();
         bgStar.x += 0.5;
         bgStar.y -= 0.1;
 
-        if(bgStar.x > canvas.width) {
+        if (bgStar.x > canvas.width) {
             backgroundStars.splice(index, 1);
-            let x = -5;
-            let y = Math.random() * canvas.height;
-            let radius = Math.random() * 3;
-            let newStar = new Star(x, y, radius, 'white');
+            const x = -5;
+            const y = Math.random() * canvas.height;
+            const radius = Math.random() * 3;
+            const newStar = new Star(x, y, radius, 'white');
             backgroundStars.push(newStar);
         }
     });
@@ -191,30 +185,29 @@ function animate() {
 
     createGround();
 
-    stars.forEach((star, index) => { 
+    stars.forEach((star, index) => {
         star.update();
-        if(star.radius < 0) {
-            stars.splice(index, 1)
+        if (star.radius < 0) {
+            stars.splice(index, 1);
         }
     });
 
     miniStars.forEach((miniStar, index) => {
-        miniStar.update()
-        if(miniStar.ttl < 0) {
-            miniStars.splice(index, 1)
+        miniStar.update();
+        if (miniStar.ttl < 0) {
+            miniStars.splice(index, 1);
         }
     });
 
-    frameTick++;
+    frameTick += 1;
 
-    if (frameTick % randomSpawnRate == 0) {
+    if (frameTick % randomSpawnRate === 0) {
         const radius = utils.randomIntFromRange(6, 10);
         const x = Math.max(radius, Math.random() * canvas.width - radius);
-        
-        stars.push(new Star(x, -100, radius, 'white'))
+        stars.push(new Star(x, -100, radius, 'white'));
         randomSpawnRate = utils.randomIntFromRange(200, 400);
     }
 }
 
-init()
-animate()
+init();
+animate();
